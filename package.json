@@ -1,0 +1,28 @@
+{
+  "name": "job-hunter-agent",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "LangGraph.js agent that finds remote jobs matching my CV, scores them with Gemini and sends a daily Telegram digest.",
+  "scripts": {
+    "start": "tsx --env-file-if-exists=.env src/index.ts",
+    "dry": "tsx --env-file-if-exists=.env src/index.ts --dry",
+    "test:sources": "tsx --env-file-if-exists=.env src/test-sources.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@google/genai": "latest",
+    "@langchain/core": "latest",
+    "@langchain/google": "latest",
+    "@langchain/langgraph": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "tsx": "^4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
