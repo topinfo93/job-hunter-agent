@@ -1,7 +1,7 @@
 # Job Hunter Agent — LangGraph.js + Gemini (100% miễn phí)
 
 Mỗi sáng 7h, agent tự:
-1. Lấy job remote mới từ **Himalayas, Remotive, RemoteOK** (API public, miễn phí).
+1. Lấy job remote mới từ **Himalayas, Remotive, RemoteOK, Jobicy, We Work Remotely** (API/RSS public, miễn phí).
 2. Lọc bằng luật (trùng lặp, cũ, sai stack, giới hạn quốc gia).
 3. Xếp hạng theo **độ giống CV** bằng embedding (Gemini).
 4. **LLM chấm điểm** từng job (0–100), kiểm tra có nhận người ở Việt Nam không, kỹ năng khớp/thiếu.
@@ -59,13 +59,13 @@ flowchart LR
 ```bash
 npm install
 cp .env.example .env        # điền GOOGLE_API_KEY
-npm run test:sources        # in 10 job đầu từ 3 nguồn
+npm run test:sources        # in vài job mẫu từ mỗi nguồn (5 nguồn)
 ```
 - Đọc `src/sources/*.ts`: mỗi nguồn trả JSON khác nhau → **chuẩn hoá** về kiểu `Job` chung (`src/types.ts`). Đây là bài học quan trọng nhất khi làm agent với dữ liệu thật.
 - Mở `src/config.ts`, chỉnh `himalayasQueries`, `includeKeywords`, `excludeTitleKeywords` theo mục tiêu của bạn.
 - Sửa `profile/cv.md` — **đây là "bộ não" của agent**, chỉ ghi điều đúng sự thật (cover letter sẽ dựa vào đây).
 
-✅ Xong khi: `test:sources` ra job từ cả 3 nguồn.
+✅ Xong khi: `test:sources` ra job từ cả 5 nguồn.
 
 ### Ngày 2 — Filter + Embedding ranking
 **Mục tiêu:** hiểu vì sao cần phễu và embedding.
@@ -121,7 +121,7 @@ npm run test:sources        # in 10 job đầu từ 3 nguồn
 profile/cv.md                 # CV dạng text — nguồn sự thật duy nhất
 src/config.ts                 # mọi tham số chỉnh được
 src/types.ts                  # Job, Evaluation, Letter
-src/sources/                  # himalayas.ts, remotive.ts, remoteok.ts → Job[]
+src/sources/                  # himalayas, remotive, remoteok, jobicy, weworkremotely → Job[]
 src/lib/embeddings.ts         # Gemini embedding (@google/genai)
 src/lib/llm.ts                # ChatGoogle (LangChain) cho judge + writer
 src/lib/telegram.ts           # gửi tin, tự chia nhỏ > 4096 ký tự
@@ -152,6 +152,8 @@ src/graph/build.ts            # nối graph
 - **Remotive**: tối đa ~4 lần/ngày, ≤ 2 request/phút, phải link về Remotive. (Agent gọi 1 lần/ngày.)
 - **Himalayas**: có rate limit, phải link về Himalayas, không đẩy job sang trang khác.
 - **RemoteOK**: phải ghi nguồn + link về.
+- **Jobicy**: gọi tối đa 1 lần/giờ, phải ghi nguồn Jobicy và giữ nguyên link job của Jobicy. (Agent gọi 1 lần/ngày, mỗi geo trong `jobicyGeos` 1 request.)
+- **We Work Remotely**: đọc RSS công khai, phải ghi nguồn + link về We Work Remotely. (Mỗi feed trong `wwrCategories` 1 request/ngày.)
 - Agent chỉ dùng cho **cá nhân**, mọi job trong digest đều có link "Open on <nguồn>". Không public lại danh sách job.
 
 ## 7. Nâng cấp tiếp (khi đã chạy ổn)
