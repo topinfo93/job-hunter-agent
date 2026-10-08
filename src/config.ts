@@ -5,6 +5,12 @@ export const config = {
   //remotiveCategory: "",                  // 1 request per run (Remotive: max ~4 runs/day)
   remotiveCategory: "software-dev",
   useRemoteOK: true,
+  jobicyGeos: ["apac", "anywhere"], // 1 request each, 1.5s apart (Jobicy: poll at most once/hour)
+  wwrCategories: [                     // We Work Remotely RSS feeds, 1 request each, 1s apart
+    "remote-full-stack-programming-jobs",
+    "remote-front-end-programming-jobs",
+    "remote-back-end-programming-jobs",
+  ],
 
   // --- Rule-based filter (cheap, no API calls) ---
   maxAgeDays: 14,

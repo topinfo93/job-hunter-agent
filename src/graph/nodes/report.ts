@@ -7,7 +7,13 @@ import { escapeHtml as h } from "../../lib/utils.js";
 import { shortlist } from "./evaluate.js";
 import type { Node } from "../state.js";
 
-const SOURCE_NAME = { himalayas: "Himalayas", remotive: "Remotive", remoteok: "RemoteOK" } as const;
+const SOURCE_NAME = {
+  himalayas: "Himalayas",
+  remotive: "Remotive",
+  remoteok: "RemoteOK",
+  jobicy: "Jobicy",
+  weworkremotely: "We Work Remotely",
+} as const;
 
 export const report: Node = async (state) => {
   const date = new Date().toISOString().slice(0, 10);

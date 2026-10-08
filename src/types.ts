@@ -1,6 +1,6 @@
 export type Job = {
   id: string;            // `${source}:${originalId}`
-  source: "himalayas" | "remotive" | "remoteok";
+  source: "himalayas" | "remotive" | "remoteok" | "jobicy" | "weworkremotely";
   title: string;
   company: string;
   url: string;           // link back to the source listing (required by their terms)
